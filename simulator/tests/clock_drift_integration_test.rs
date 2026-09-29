@@ -8,7 +8,7 @@
 //! - Basic clock initialization and advancement
 //! - Clock state preservation across snapshot/restore cycles
 //! - Multiple clock advance operations
-//! - Integration with SimHost lifecycle
+//! - Integration with `SimHost` lifecycle
 
 use erst_sim::runner::{HostConfig, SimHost};
 use erst_sim::types::SimulationRequest;
@@ -139,7 +139,7 @@ fn test_clock_reset_to_system_time() {
         .as_secs();
 
     // Should be within 2 seconds (allowing for test execution time)
-    assert!((after_reset as i64 - now as i64).abs() <= 2);
+    assert!((after_reset.cast_signed() - now.cast_signed()).abs() <= 2);
 }
 
 #[test]
@@ -238,7 +238,7 @@ fn test_timelock_contract_scenario() {
 
     // Advance time to the unlock moment
     let time_until_unlock = contract_unlock_time - simulation_start;
-    host.advance_clock(time_until_unlock as i64);
+    host.advance_clock(time_until_unlock.cast_signed());
 
     // Now the contract should unlock
     assert_eq!(host.get_clock(), contract_unlock_time);
@@ -257,7 +257,7 @@ fn test_clock_with_large_advancements() {
     let one_year_seconds = 365 * 24 * 3600;
     host.advance_clock(one_year_seconds);
 
-    assert_eq!(host.get_clock(), 1700000000 + one_year_seconds as u64);
+    assert_eq!(host.get_clock(), 1700000000 + one_year_seconds.cast_unsigned());
 }
 
 #[test]
@@ -295,7 +295,7 @@ fn test_clock_state_across_snapshots_with_concurrent_advancement() {
     // Further advancement
     host.advance_clock(2000);
     let clock_t2 = host.get_clock();
-    assert_eq!(clock_t2, 1700003000);
+    assert_eq!(clock_t2, 1_700_003_000);
 
     // Restore to t0, then to t1, verifying clock is preserved in each
     host.restore_from_snapshot(&snapshot_t0)
@@ -312,5 +312,5 @@ fn test_clock_state_across_snapshots_with_concurrent_advancement() {
 
     // One more advancement to verify it continues
     host.advance_clock(500);
-    assert_eq!(host.get_clock(), 1700003500);
+    assert_eq!(host.get_clock(), 1_700_003_500);
 }
