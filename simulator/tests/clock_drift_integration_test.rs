@@ -1,6 +1,8 @@
 // Copyright 2026 Erst Users
 // SPDX-License-Identifier: Apache-2.0
 
+#![allow(clippy::unreadable_literal)]
+
 //! Integration tests for mock ledger clock drift functionality.
 //!
 //! These tests verify that the simulator's clock drift API works correctly
@@ -257,7 +259,7 @@ fn test_clock_with_large_advancements() {
     let one_year_seconds = 365 * 24 * 3600;
     host.advance_clock(one_year_seconds);
 
-    assert_eq!(host.get_clock(), 1700000000 + one_year_seconds.cast_unsigned());
+    assert_eq!(host.get_clock(), 1_700_000_000 + one_year_seconds.cast_unsigned());
 }
 
 #[test]
@@ -265,21 +267,21 @@ fn test_clock_multiple_hosts_independent() {
     let mut host1 = SimHost::new(HostConfig::default());
     let mut host2 = SimHost::new(HostConfig::default());
 
-    host1.init_clock(1700000000);
-    host2.init_clock(1700000000);
+    host1.init_clock(1_700_000_000);
+    host2.init_clock(1_700_000_000);
 
     host1.advance_clock(3600);
     host2.advance_clock(7200);
 
     // Hosts should have independent clock states
-    assert_eq!(host1.get_clock(), 1700003600);
-    assert_eq!(host2.get_clock(), 1700007200);
+    assert_eq!(host1.get_clock(), 1_700_003_600);
+    assert_eq!(host2.get_clock(), 1_700_007_200);
 }
 
 #[test]
 fn test_clock_state_across_snapshots_with_concurrent_advancement() {
     let mut host = SimHost::new(HostConfig::default());
-    host.init_clock(1700000000);
+    host.init_clock(1_700_000_000);
 
     // Snapshot 1: Initial state
     let snapshot_t0 = host.capture_snapshot().expect("should capture");
@@ -287,7 +289,7 @@ fn test_clock_state_across_snapshots_with_concurrent_advancement() {
     // Advance clock
     host.advance_clock(1000);
     let clock_t1 = host.get_clock();
-    assert_eq!(clock_t1, 1700001000);
+    assert_eq!(clock_t1, 1_700_001_000);
 
     // Snapshot 2: After first advancement
     let snapshot_t1 = host.capture_snapshot().expect("should capture");

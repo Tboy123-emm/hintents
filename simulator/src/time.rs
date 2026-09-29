@@ -58,6 +58,7 @@ impl ClockDrift {
     ///
     /// # Arguments
     /// * `timestamp` - Ledger timestamp in seconds since Unix epoch
+    #[allow(dead_code)]
     pub fn with_timestamp(timestamp: u64) -> Self {
         Self {
             base_timestamp: Some(timestamp),
@@ -73,6 +74,7 @@ impl ClockDrift {
     ///
     /// # Arguments
     /// * `seconds` - Number of seconds to advance (can be negative to go backwards)
+    #[allow(dead_code)]
     pub fn advance_clock(&mut self, seconds: i64) {
         self.absolute_override = None; // Clear any absolute override
         self.accumulated_drift = self.accumulated_drift.saturating_add(seconds);
@@ -85,6 +87,7 @@ impl ClockDrift {
     ///
     /// # Arguments
     /// * `timestamp` - Absolute ledger timestamp in seconds since Unix epoch
+    #[allow(dead_code)]
     pub fn set_clock(&mut self, timestamp: u64) {
         self.absolute_override = Some(timestamp);
         self.accumulated_drift = 0;
@@ -97,6 +100,7 @@ impl ClockDrift {
     /// 1. Absolute override (if set via [`set_clock`])
     /// 2. Base + accumulated drift (if base is set via [`with_timestamp`])
     /// 3. System time + accumulated drift (fallback)
+    #[allow(dead_code)]
     pub fn get_clock(&self) -> u64 {
         if let Some(ts) = self.absolute_override {
             return ts;
@@ -113,6 +117,7 @@ impl ClockDrift {
     }
 
     /// Resets the clock to its initial state (no drift, no override).
+    #[allow(dead_code)]
     pub fn reset(&mut self) {
         self.base_timestamp = None;
         self.accumulated_drift = 0;

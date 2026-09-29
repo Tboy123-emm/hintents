@@ -350,6 +350,7 @@ impl SimHost {
     /// ```ignore
     /// host.advance_clock(3600); // Advance by 1 hour
     /// ```
+    #[allow(dead_code)]
     pub fn advance_clock(&mut self, seconds: i64) {
         self.clock.advance_clock(seconds);
         debug!(seconds = seconds, "advanced simulator clock");
@@ -367,6 +368,7 @@ impl SimHost {
     /// ```ignore
     /// host.set_clock(1700000000); // Set to Nov 15, 2023
     /// ```
+    #[allow(dead_code)]
     pub fn set_clock(&mut self, timestamp: u64) {
         self.clock.set_clock(timestamp);
         debug!(
@@ -382,6 +384,7 @@ impl SimHost {
     ///
     /// # Returns
     /// Ledger timestamp in seconds since Unix epoch
+    #[allow(dead_code)]
     pub fn get_clock(&self) -> u64 {
         self.clock.get_clock()
     }
@@ -393,12 +396,14 @@ impl SimHost {
     ///
     /// # Arguments
     /// * `timestamp` - Base ledger timestamp in seconds since Unix epoch
+    #[allow(dead_code)]
     pub fn init_clock(&mut self, timestamp: u64) {
         self.clock = ClockDrift::with_timestamp(timestamp);
         debug!(timestamp = timestamp, "initialized simulator clock");
     }
 
     /// Resets the clock to its initial state (no drift, no override).
+    #[allow(dead_code)]
     pub fn reset_clock(&mut self) {
         self.clock.reset();
         debug!("reset simulator clock");
