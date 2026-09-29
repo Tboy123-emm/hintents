@@ -259,7 +259,10 @@ fn test_clock_with_large_advancements() {
     let one_year_seconds = 365 * 24 * 3600;
     host.advance_clock(one_year_seconds);
 
-    assert_eq!(host.get_clock(), 1_700_000_000 + one_year_seconds.cast_unsigned());
+    assert_eq!(
+        host.get_clock(),
+        1_700_000_000 + one_year_seconds.cast_unsigned()
+    );
 }
 
 #[test]
