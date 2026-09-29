@@ -1,5 +1,7 @@
 {
     "recommendations": [
-        "kilocode.kilo-code"
+        "myml.vscode-markdown-plantuml-preview",
+        "esbenp.prettier-vscode",
+        "jebbs.plantuml"
     ]
 }
